@@ -1,0 +1,20 @@
+.env
+
+# Gradle
+.gradle
+local.properties
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Intellij
+.idea/
+*.iml
+*.iws
+
+# Mac
+.DS_Store
+
+# Eclipse
+**/*.project
+**/*.classpath
+**/*.settings

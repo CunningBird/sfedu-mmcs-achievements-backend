@@ -1,0 +1,35 @@
+version: '3.7'
+
+services:
+
+  database:
+    image: "postgres:13.4-alpine"
+    container_name: database
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  core:
+    image: "mlsdaq/core:1.0.0"
+    container_name: core
+    build:
+      context: .
+      args:
+        NEXUS_USERNAME: ${NEXUS_USERNAME}
+        NEXUS_PASSWORD: ${NEXUS_PASSWORD}
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+    environment:
+      - APPLICATION_PORT=8080
+      - DATASOURCE_URL=jdbc:postgresql://database:5432/core
+      - DATASOURCE_USERNAME=postgres
+      - DATASOURCE_PASSWORD=password
+
+volumes:
+  postgres-data:
